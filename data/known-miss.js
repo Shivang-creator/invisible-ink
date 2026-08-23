@@ -36,5 +36,5 @@ export default Object.freeze({
     "Rendering-layer tricks that require a browser to interpret markup or styling (HTML comments, CSS visibility/color tricks, off-screen positioning).",
   ],
   overReporting:
-    "It also over-reports in the other direction: HG-001 flags Cyrillic and Greek letters that are genuine homoglyphs of ASCII, so an ordinary Russian sentence produces six medium-severity rows. Every one of those rows is technically correct and useless. Homoglyph detection on non-Latin script is a precision trade-off we have not solved — we print it rather than hide it.",
+    "It also over-reports in the other direction: HG-001 flags Cyrillic and Greek letters that are genuine homoglyphs of ASCII, so the ordinary Russian greeting in tests/falsepositive.test.js produces eleven medium-severity rows. Every one of those rows is technically correct and useless. Homoglyph detection on non-Latin script is a precision trade-off we have not solved — we print it rather than hide it.",
 });
