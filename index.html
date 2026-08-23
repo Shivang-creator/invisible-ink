@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invisible Ink</title>
+<meta name="description" content="Instructions hidden in text a human cannot see, and a language model reads anyway. Deterministic, offline, no network calls.">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<a class="skip-link" href="#inputText">Skip to the input</a>
+<main data-state="loaded" id="app">
+  <header class="site-header">
+    <div class="brand">
+      <h1 class="brand-name">INVISIBLE INK</h1>
+      <p class="brand-tag">Instructions hidden in text a human cannot see, and a language model reads anyway.</p>
+    </div>
+    <div class="header-meta">
+      <span class="rulepack-badge" id="rulepackBadge"></span>
+      <div class="model-toggle" role="group" aria-label="Model layer">
+        <span class="model-toggle-label">Model layer</span>
+        <button type="button" class="model-btn" id="modelOnBtn" aria-pressed="true">ON</button>
+        <button type="button" class="model-btn" id="modelOffBtn" aria-pressed="false">OFF</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="self-test-strip" id="selfTestStrip" aria-label="Self-test results"></section>
+
+  <section class="band" id="band" aria-live="polite" aria-atomic="true" data-live-target="band">
+    <div class="counter-panel" id="counterPanel"></div>
+    <div class="recovered-panel" id="recoveredPanel"></div>
+  </section>
+
+  <section class="work" id="work">
+    <div class="work-left">
+      <div class="reveal-pane" id="revealPane"></div>
+      <div class="sample-row">
+        <div class="sample-buttons" id="sampleButtons"></div>
+        <button type="button" class="clear-btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <div class="work-right">
+      <div class="ledger-panel" id="ledgerPanel"></div>
+      <div class="kill-switch-panel" id="killSwitchPanel"></div>
+    </div>
+  </section>
+
+  <section class="sanitizer-panel" id="sanitizerPanel" hidden></section>
+  <section class="known-miss-panel" id="knownMissPanel" hidden></section>
+  <section class="obedience-panel" id="obediencePanel"></section>
+
+  <footer class="legend" id="legend"></footer>
+</main>
+<div class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" id="liveRegion"></div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

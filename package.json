@@ -1,0 +1,12 @@
+{
+  "name": "invisible-ink",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "killswitch": "node tools/killswitch.mjs",
+    "corpus": "node tools/gen-corpus.mjs --seed 20260824",
+    "samples": "node tools/gen-samples.mjs",
+    "testcount": "node tools/run-tests.mjs"
+  }
+}
