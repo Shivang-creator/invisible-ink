@@ -111,7 +111,12 @@ function tagEncode(msg) {
 
 function vsEncode(msg) {
   let out = "";
-  for (const ch of msg) out += String.fromCodePoint(0xe0100 + ch.charCodeAt(0));
+  // Same mapping the published encoder uses: bytes 0-15 -> U+FE00-FE0F,
+  // bytes 16-255 -> U+E0100-E01EF.
+  for (const ch of msg) {
+    const byte = ch.charCodeAt(0);
+    out += String.fromCodePoint(byte < 16 ? 0xfe00 + byte : 0xe0100 + (byte - 16));
+  }
   return out;
 }
 

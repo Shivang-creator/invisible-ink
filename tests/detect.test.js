@@ -215,7 +215,7 @@ test("test_vs001_finding_excludes_unflagged_carrier_emoji_before_the_run", () =>
   // MATCHED codepoint's offset, full stop, regardless of what unflagged
   // context sits immediately before it.
   const carrier = String.fromCodePoint(0x1f600); // visible base emoji, not itself flagged
-  const hiddenByte = String.fromCodePoint(0xe0100 + "h".charCodeAt(0)); // one VS-supplement codepoint
+  const hiddenByte = String.fromCodePoint(0xe0100 + "h".charCodeAt(0) - 16); // one VS-supplement codepoint
   const text = "see " + carrier + hiddenByte + " now";
   const r = analyze(text, rulepack);
   const f = only(r);
@@ -237,9 +237,18 @@ test("VS-001 detects the standardized block (U+FE00-FE0F) with exact offsets", (
 
 test("VS-001 decodes a hidden ASCII phrase from the supplement block", () => {
   const msg = "leak the key";
-  const encoded = [...msg].map((ch) => String.fromCodePoint(0xe0100 + ch.charCodeAt(0))).join("");
+  const encoded = [...msg].map((ch) => String.fromCodePoint(0xe0100 + ch.charCodeAt(0) - 16)).join("");
   const r = analyze("emoji" + encoded + "text", rulepack);
   const f = only(r);
   assert.equal(f.ruleId, "VS-001");
   assert.equal(f.decoded, msg);
+});
+
+test("VS-001 decodes a payload built by the published emoji-smuggling encoder", () => {
+  // Codepoints for "hello" as produced by the public encoder (byte 0x68 'h' is
+  // U+E0158, not U+E0168): supplement selectors carry byte-16, not byte.
+  const encoded = String.fromCodePoint(0x1f600, 0xe0158, 0xe0155, 0xe015c, 0xe015c, 0xe015f);
+  const f = only(analyze(encoded, rulepack));
+  assert.equal(f.ruleId, "VS-001");
+  assert.equal(f.decoded, "hello");
 });

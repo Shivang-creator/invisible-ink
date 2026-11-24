@@ -96,12 +96,15 @@ function decodeSpan(rule, codepoints) {
         .join("");
     }
     case "variationselector":
-      // Standardized VS (U+FE00-FE0F) encode as cp-0xFE00; the supplement block
-      // (U+E0100-E01EF, the one actually used for byte-per-selector smuggling)
-      // encodes as cp-0xE0100.
+      // The published byte-per-selector scheme uses all 256 selectors as one
+      // alphabet: bytes 0-15 are U+FE00-FE0F (cp-0xFE00) and bytes 16-255 are
+      // the supplement block U+E0100-E01EF (cp-0xE0100+16). Decoding the
+      // supplement block as cp-0xE0100 shifted every real payload by 16.
       return codepoints
         .map((cp) =>
-          cp >= 0xe0100 ? String.fromCharCode(cp - 0xe0100) : String.fromCharCode(cp - 0xfe00)
+          cp >= 0xe0100
+            ? String.fromCharCode(cp - 0xe0100 + 16)
+            : String.fromCharCode(cp - 0xfe00)
         )
         .join("");
     default:
